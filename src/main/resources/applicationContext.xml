@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	   xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+
+
+
+	<!-- 利用Spring调用对象生命周期管理方法
+init-method 属性用于设置对象创建以后立即执行的方法
+destroy-method 方法用于设置对象销毁之前执行的方法
+Spring会在创建对象以后立即执行 初始化方法
+Spring会在容器关闭时候，执行对象销毁方法 -->
+
+    <bean id="axe" class="spring02.Axe"/>
+    <bean id="saw" class="spring02.Saw"/>
+    <bean id="qiang" class="spring02.Worker">
+        <!-- 将axe注入到bean属性tool中
+        如果需要更换工具，改变ref值即可 -->
+        <property name="tool" ref="axe"></property>
+    </bean>
+    <!-- Spring注入各种类型的基本值 -->
+    <bean id="myBean" class="spring02.MyBean">
+        <property name="age" value="28"></property>
+        <property name="price" value="3.14"></property>
+        <property name="size" value="8"></property>
+        <property name="time" value="1234567890234"/>
+    </bean>
+    <!-- Spring 注入各种数组和集合 -->
+    <bean id="testBean" class="spring02.TestBean">
+        <!-- 注入int数组 arr1, 值为 {1,2,3,4}-->
+        <property name="arr1">
+            <array>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+                <value>4</value>
+            </array>
+        </property>
+        <!-- 注入字符串数组 -->
+        <property name="names">
+            <array>
+                <value>Tom</value>
+                <value>Jerry</value>
+                <value>李大嘴</value>
+            </array>
+        </property>
+        <!-- List 注入 -->
+        <property name="cities">
+            <list>
+                <value>帝都</value>
+                <value>魔都</value>
+                <value>成都</value>
+            </list>
+        </property>
+        <!-- Map 集合注入 -->
+        <property name="map">
+            <map>
+                <entry key="Tom">
+                    <value>一只公猫</value>
+                </entry>
+                <entry key="Jerry">
+                    <value>一只老鼠</value>
+                </entry>
+            </map>
+        </property>
+        <!-- List 对象集合注入 -->
+        <property name="tools">
+            <list>
+                <!-- ref 标签引用已经创建的Bean ID -->
+                <ref bean="saw"/>
+                <ref bean="axe"/>
+                <!-- bean 标签表示创建新对象 -->
+                <bean class="spring02.Axe"></bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 利用Spring IOC容器管理数据库连接池 对象-->
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource">
+        <!-- 引擎BasicDataSource类包含 setDriverClassName()
+        方法，所以可以作为Bean属性访问  -->
+        <property name="driverClassName"
+                  value="com.mysql.jdbc.Driver"></property>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/newdb3"></property>
+        <property name="username"
+                  value="root"></property>
+        <property name="password"
+                  value="root"></property>
+        <property name="initialSize"
+                  value="3"></property>
+        <property name="maxActive"
+                  value="10"></property>
+    </bean>
+
+</beans>
