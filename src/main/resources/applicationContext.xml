@@ -24,7 +24,7 @@
 
 
 	<!-- 利用Spring调用对象生命周期管理方法
-init-method 属性用于设置对象创建以后立即执行的方法
+init-method 属性用于设置对象创11111建以后立即执行的方法
 destroy-method 方法用于设置对象销毁之前执行的方法
 Spring会在创建对象以后立即执行 初始化方法
 Spring会在容器关闭时候，执行对象销毁方法 -->
@@ -95,9 +95,7 @@ Spring会在容器关闭时候，执行对象销毁方法 -->
 
     <!-- 利用Spring IOC容器管理数据库连接池 对象-->
     <bean id="dataSource"
-          class="org.apache.commons.dbcp.BasicDataSource">
-        <!-- 引擎BasicDataSource类包含 setDriverClassName()
-        方法，所以可以作为Bean属性访问  -->
+
         <property name="driverClassName"
                   value="com.mysql.jdbc.Driver"></property>
         <property name="url"
